@@ -1,9 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GenreSelectionScreen extends JPanel {
     private ArrayList<JToggleButton> genreButtons = new ArrayList<>();
+    private final List<String> preferredGenres = new ArrayList<>();
 
     private static final String[] genres = {
             "Fantasy", "Fiction", "Young Adult", "Romance", "Science Fiction",
@@ -33,8 +36,10 @@ public class GenreSelectionScreen extends JPanel {
             button.addActionListener(e -> {
                 if (button.isSelected()) {
                     button.setBackground(Color.decode("#e3a898"));
+                    preferredGenres.add(genre);
                 } else {
                     button.setBackground(Color.decode("#cfe5e5"));
+                    preferredGenres.remove(genre);
                 }
             });
             genreButtons.add(button);
@@ -52,8 +57,11 @@ public class GenreSelectionScreen extends JPanel {
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "welcomeScreen"));
         JButton nextButton = createButton("Next →");
         nextButton.addActionListener(e -> {
-            // TODO: Save selected genres if needed
-            cardLayout.show(mainPanel, "authorScreen");
+            if (preferredGenres.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select at least one genre to continue.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+            } else {
+                cardLayout.show(mainPanel, "authorScreen");
+            }
         });
 
         buttonPanel.add(backButton);
@@ -70,5 +78,9 @@ public class GenreSelectionScreen extends JPanel {
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.PLAIN, 16));
         return button;
+    }
+
+    public List<String> getPreferredGenres() {
+        return new ArrayList<>(preferredGenres);
     }
 }

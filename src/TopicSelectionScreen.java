@@ -1,8 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TopicSelectionScreen extends JPanel {
     private JTextArea topicTextArea;
+    private final Set<String> preferredTopics= new HashSet<>();
 
     public TopicSelectionScreen(CardLayout cardLayout, JPanel mainPanel) {
         setBackground(Color.decode("#efe8f1"));
@@ -32,8 +36,24 @@ public class TopicSelectionScreen extends JPanel {
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "authorScreen"));
         JButton nextButton = createButton("Next →");
         nextButton.addActionListener(e -> {
-            // Save topics here if needed
-            cardLayout.show(mainPanel, "ratingScreen");
+            if (topicTextArea.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please type at least one topic to continue.", "Topic Required", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String[] authors = topicTextArea.getText().split(",");
+                preferredTopics.clear();
+                for (String author : authors) {
+                    author = author.trim();
+                    if (author.isEmpty()) {
+                        continue;
+                    }
+                    preferredTopics.add(author);
+                }
+                if (preferredTopics.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please type at least one topic to continue.", "Topic Required", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    cardLayout.show(mainPanel, "starScreen");
+                }
+            }
         });
 
         buttonPanel.add(backButton);
@@ -50,5 +70,9 @@ public class TopicSelectionScreen extends JPanel {
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.PLAIN, 16));
         return button;
+    }
+
+    public java.util.List<String> getPreferredTopics() {
+        return new ArrayList<>(preferredTopics);
     }
 }

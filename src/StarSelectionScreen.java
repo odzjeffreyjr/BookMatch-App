@@ -41,9 +41,9 @@ public class StarSelectionScreen extends JPanel {
         buttonPanel.setOpaque(false);
 
         JButton backButton = createButton("← Back");
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "ratingScreen"));
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "topicScreen"));
         JButton nextButton = createButton("Next →");
-        nextButton.addActionListener(e -> cardLayout.show(mainPanel, "recommendationScreen"));
+        nextButton.addActionListener(e -> cardLayout.show(mainPanel, "loadingScreen"));
 
         buttonPanel.add(backButton);
         buttonPanel.add(nextButton);
@@ -69,5 +69,9 @@ public class StarSelectionScreen extends JPanel {
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.PLAIN, 16));
         return button;
+    }
+
+    public Integer getSelectedStars() {
+        return Integer.valueOf(selectedStars);
     }
 }
