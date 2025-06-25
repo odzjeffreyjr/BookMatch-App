@@ -33,13 +33,14 @@ BookMatch uses a Vector Space Model (VSM) to compute similarity between a user�
   * `books.csv` is parsed using `VectorSpaceModel.parseCSV()`, which extracts title, author, description genre(s), and average rating.
 
 2. Vectorization
+
   a. **Book Vectors** (`vectorizeBook`): Each book is encoded into a numerical vector:
     * One-hot encoding for genres
     * One-hot encoding for author
     * Cosine similarity between book and user descriptions
     * Normalized average rating
   
-  b. User Vector (`vectorizePreferences`): The user’s preferences are similarly encoded.
+  b. **User Vector** (`vectorizePreferences`): The user’s preferences are similarly encoded.
     * One-hot encoding for selected genres and authors
     * A fixed value of 1.0 for description similarity (since we compare it with the book description later)
     * Normalized minimum acceptable rating
